@@ -1,0 +1,16 @@
+{
+    "name": "app/task-manager",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\TaskManager\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sumiya Yasmin"
+        }
+    ],
+    "require": {}
+}
