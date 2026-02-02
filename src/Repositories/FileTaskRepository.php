@@ -3,11 +3,15 @@ namespace App\TaskManager\Repositories;
 use App\TaskManager\Models\Task;
 use App\TaskManager\Models\TaskStatus;
 use  App\TaskManager\Interfaces\TaskRepositoryInterface;
+use App\TaskManager\Factories\TaskFactory;
+
 use DateTimeImmutable;
 use InvalidArgumentException;
 use RuntimeException;
 class FileTaskRepository implements TaskRepositoryInterface{
       private string $filepath;
+      private TaskFactory $factory;
+
       public function save(Task $task): void{
          $data= $this->readData();
          if($task->getId() === null){
@@ -58,19 +62,21 @@ class FileTaskRepository implements TaskRepositoryInterface{
       }
 
       private function hydrate(array $row): Task{
-           $task= new Task($row['title']);
-           $task->assignId($row['id']);
-            if($row['status'] === TaskStatus::DONE->value){
-                $task->markAsDone();
-            }
-            if($row['status']===TaskStatus::CANCELLED->value){
-                $task->cancel();
-            }
-            return $task;
+        return $this->factory->restoreFromStorage($row);
+        //    $task= new Task($row['title']);
+        //    $task->assignId($row['id']);
+        //     if($row['status'] === TaskStatus::DONE->value){
+        //         $task->markAsDone();
+        //     }
+        //     if($row['status']===TaskStatus::CANCELLED->value){
+        //         $task->cancel();
+        //     }
+        //     return $task;
       }
 
-      public function __construct(string $filepath){
+      public function __construct(string $filepath, TaskFactory $factory){
              $this->filepath = $filepath;
+             $this->factory=$factory;
              $dir = dirname($filepath);
              if(!is_dir($dir)){
                 mkdir($dir, recursive:true);

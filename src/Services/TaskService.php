@@ -2,11 +2,15 @@
 namespace App\TaskManager\Services;
 use App\TaskManager\Models\Task;
 use App\TaskManager\Interfaces\TaskRepositoryInterface;
+use App\TaskManager\Factories\TaskFactory;
+
 use RunTimeException;
 class TaskService{
     private TaskRepositoryInterface $repository;
+    private TaskFactory $factory;
+
     public function createTask(string $title): Task{
-        $task = new Task($title);
+        $task = $this->factory->create($title);
         $this->repository->save($task);
         return $task;
     }
@@ -40,8 +44,9 @@ class TaskService{
         return $this->repository->findAll();
     }
 
-    public function __construct(TaskRepositoryInterface $repository){
+    public function __construct(TaskRepositoryInterface $repository, TaskFactory $factory
+){
          $this->repository = $repository;
-
+         $this->factory = $factory;
     }
 }
