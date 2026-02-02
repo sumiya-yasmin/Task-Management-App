@@ -3,15 +3,25 @@ namespace App\TaskManager\Services;
 use App\TaskManager\Models\Task;
 use App\TaskManager\Interfaces\TaskRepositoryInterface;
 use App\TaskManager\Factories\TaskFactory;
+use App\TaskManager\Observers\TaskObserverInterface;
 
 use RunTimeException;
 class TaskService{
+    private array $observers = [];
     private TaskRepositoryInterface $repository;
     private TaskFactory $factory;
+
+    public function addObserver(TaskObserverInterface $observer): void {
+        $this->observers[]= $observer;
+    }
 
     public function createTask(string $title): Task{
         $task = $this->factory->create($title);
         $this->repository->save($task);
+        foreach ($this->observers as $observer) {
+            $observer->created($task);
+        }
+
         return $task;
     }
     public function markTaskAsDone(int $id):void{
@@ -21,6 +31,9 @@ class TaskService{
          }
          $task->markAsDone();
          $this->repository->save($task);
+         foreach ($this->observers as $observer) {
+            $observer->updated($task);
+        }
     }
     public function cancelTask(int $id):void{
         $task=$this->repository->findById($id);
