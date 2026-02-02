@@ -2,9 +2,12 @@
 require_once __DIR__ . '/vendor/autoload.php';
 use App\TaskManager\Repositories\FileTaskRepository;
 use App\TaskManager\Services\TaskService;
+use App\TaskManager\Factories\TaskFactory;
 
-$repo = new FileTaskRepository(__DIR__. '/storage/tasks.json');
-$service=new TaskService($repo);
+
+$taskFactory = new TaskFactory();
+$repo = new FileTaskRepository(__DIR__. '/storage/tasks.json', $taskFactory);
+$service=new TaskService($repo, $taskFactory);
 
 $command= $argv[1] ?? null;
 switch ($command) {
