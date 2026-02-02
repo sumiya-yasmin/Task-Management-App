@@ -61,15 +61,26 @@ Class Task
         $this->status = TaskStatus::CANCELLED;
         $this->endAt = new DateTimeImmutable();
     }
+
+    public static function restore(int $id, string $title, TaskStatus $status, DateTimeImmutable $createdAt, 
+        ?DateTimeImmutable $endAt ): self {
+            $task = new self($title);
+            $task->id = $id;
+            $task->status = $status;
+            $task->createdAt = $createdAt;
+            $task->endAt = $endAt;
+            return $task;
+
+        }
    
     //Constructor should enforce minimum valid state, nothing more.
     public function __construct(string $title)
     {
               //validation
-              $title = trim($title);
-              if($title === ''){
-                throw new InvalidArgumentException('Task title cannot be empty');
-              }
+            //   $title = trim($title);
+            //   if($title === ''){
+            //     throw new InvalidArgumentException('Task title cannot be empty');
+            //   }
                $this->title = $title;
                $this->status = TaskStatus::ONGOING;
                $this->createdAt = new DateTimeImmutable();
