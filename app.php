@@ -3,12 +3,14 @@ require_once __DIR__ . '/vendor/autoload.php';
 use App\TaskManager\Repositories\FileTaskRepository;
 use App\TaskManager\Services\TaskService;
 use App\TaskManager\Factories\TaskFactory;
+use App\TaskManager\Observers\LoggerObserver;
 
 
 $taskFactory = new TaskFactory();
 $repo = new FileTaskRepository(__DIR__. '/storage/tasks.json', $taskFactory);
 $service=new TaskService($repo, $taskFactory);
-
+$logger = new LoggerObserver();
+$service->addObserver($logger);
 $command= $argv[1] ?? null;
 switch ($command) {
     case 'create':
