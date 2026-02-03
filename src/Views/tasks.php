@@ -59,7 +59,8 @@
                                     </div>
                                 <?php endif; ?>
                                 <div class="hover:bg-red-100 p-2 rounded-lg">
-                                    <a href="index.php?action=delete&id=<?php echo $task->getId(); ?>">
+                                    <a href="index.php?action=delete&id=<?php echo $task->getId(); ?>"                                         onclick="return confirm('Are you sure, you want to delete?')"
+>
                                         <i data-lucide="trash" class="w-4 h-4 text-black-700 stroke-[3px]"></i>
                                     </a>
                                 </div>
