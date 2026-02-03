@@ -30,11 +30,11 @@
                 <?php endif; ?>
                 <?php foreach ($tasks as $task): ?>
                     <div class="flex flex-col gap-2 p-4 border rounded-lg hover:bg-gray-50 transition shadow-sm">
-                        <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center justify-between gap-4">
                             <div class="flex gap-4 items-center justify-center ">
-                                <span><?php echo $task->getTitle(); ?></span>
+                                <span class="break-all" ><?php echo $task->getTitle(); ?></span>
                                 <?php if ($task->getStatus()->value === 'ongoing'): ?>
-                                    <span class="border-2 border-gray-300 bg-gray-100 p-1 rounded-lg text-orange-300"> <?php echo $task->getStatus()->value ?> </span>
+                                    <span class="border-2 border-gray-300 bg-gray-100 p-1 text-xs rounded-lg text-orange-300"> <?php echo $task->getStatus()->value ?> </span>
                                 <?php endif; ?>
                             </div>
 
@@ -54,7 +54,7 @@
                                     </div>
 
                                 <?php else: ?>
-                                    <div class="border-2 border-gray-300 bg-gray-100 p-1 rounded-lg <?php echo ($task->getStatus()->value === 'done') ? 'text-green-500' : 'text-red-500' ?>">
+                                    <div class="border-2 border-gray-300 bg-gray-100 p-1 text-xs rounded-lg <?php echo ($task->getStatus()->value === 'done') ? 'text-green-500' : 'text-red-500' ?>">
                                         <?php echo $task->getStatus()->value ?>
                                     </div>
                                 <?php endif; ?>
@@ -69,7 +69,7 @@
                         <div class="flex flex-col">
                             <span class="text-xs text-gray-400"> Started: <?php echo $task->getCreatedAt()->format('M j, g:i a'); ?></span>
                             <?php if ($task->getEndAt() !== null): ?>
-                                <span class="text-xs text-gray-400"> Completed: <?php echo $task->getCreatedAt()->format('M j, g:i a'); ?></span>
+                                <span class="text-xs text-gray-400"> Completed: <?php echo $task->getEndAt()->format('M j, g:i a'); ?></span>
                             <?php endif; ?>
                         </div>
                     </div>
