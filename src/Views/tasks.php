@@ -36,7 +36,24 @@
                                 <span class="border-2 border-gray-300 bg-gray-100 p-1 rounded-lg text-orange-300"> <?php echo $task->getStatus()->value ?> </span>
                             <?php endif; ?>
                         </div>
-                    
+                        <?php if ($task->getStatus()->value === 'ongoing'): ?>
+                            <div class="flex justify-between gap-2">
+                                <div class="hover:bg-gray-100 p-3 rounded-lg">
+                                    <a href="index.php?action=done&id=<?php echo $task->getId(); ?>">
+                                        <i data-lucide="check" class="w-5 h-5 text-green-700 stroke-[3px]"></i>
+                                    </a>
+                                </div>
+                                <div class="hover:bg-gray-100 p-3 rounded-lg">
+                                    <a href="index.php?action=cancel&id=<?php echo $task->getId(); ?>">
+                                        <i data-lucide="X" class="w-5 h-5 text-red-700 stroke-[4px]"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <div class="border-2 border-gray-300 bg-gray-100 p-1 rounded-lg <?php echo ($task->getStatus()->value === 'done') ? 'text-green-500' : 'text-red-500' ?>">
+                                <?php echo $task->getStatus()->value ?>
+                            </div>
+                        <?php endif; ?>
 
                     </div>
                 <?php endforeach; ?>
